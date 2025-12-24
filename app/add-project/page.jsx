@@ -14,16 +14,19 @@ export default function AddProject() {
     const userId = localStorage.getItem("userId");
 
     try {
-      const res = await fetch("http://localhost:5000/api/tasks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: userId,
-          title,
-          description,
-          priority,
-        }),
-      });
+      const res = await fetch(
+        "https://moodratio-backend-production.up.railway.app/api/tasks",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: userId,
+            title,
+            description,
+            priority,
+          }),
+        }
+      );
 
       if (res.ok) {
         // GANTI ALERT JADI TOAST

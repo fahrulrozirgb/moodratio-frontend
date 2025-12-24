@@ -12,11 +12,14 @@ export default function Login() {
   // Fungsi Login Google
   const handleGoogleSuccess = async (response) => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/google", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: response.credential }),
-      });
+      const res = await fetch(
+        "https://moodratio-backend-production.up.railway.app/api/auth/google",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: response.credential }),
+        }
+      );
       const data = await res.json();
       if (data.success) {
         localStorage.setItem("userId", data.user.id);
@@ -32,11 +35,14 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        "https://moodratio-backend-production.up.railway.app/api/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
       const data = await res.json();
       if (data.success) {
         localStorage.setItem("userId", data.user.id);

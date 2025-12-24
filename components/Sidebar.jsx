@@ -13,7 +13,9 @@ export default function Sidebar() {
       const userId = localStorage.getItem("userId");
       if (userId) {
         try {
-          const res = await fetch(`http://localhost:5000/api/user/${userId}`);
+          const res = await fetch(
+            `https://moodratio-backend-production.up.railway.app/api/user/${userId}`
+          );
           if (res.ok) {
             const data = await res.json();
             setUserData(data);

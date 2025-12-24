@@ -14,8 +14,12 @@ export default function RewardPage() {
 
     try {
       const [resUser, resBoard] = await Promise.all([
-        fetch(`http://localhost:5000/api/user/${userId}`),
-        fetch("http://localhost:5000/api/leaderboard"),
+        fetch(
+          `https://moodratio-backend-production.up.railway.app/api/user/${userId}`
+        ),
+        fetch(
+          "https://moodratio-backend-production.up.railway.app/api/leaderboard"
+        ),
       ]);
       if (resUser.ok) setUser(await resUser.json());
       if (resBoard.ok) setLeaderboard(await resBoard.json());

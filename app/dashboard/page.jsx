@@ -21,12 +21,14 @@ export default function Dashboard() {
 
     try {
       // 1. Ambil data User
-      const resUser = await fetch(`http://localhost:5000/api/user/${userId}`);
+      const resUser = await fetch(
+        `https://moodratio-backend-production.up.railway.app/api/user/${userId}`
+      );
       if (resUser.ok) setUser(await resUser.json());
 
       // 2. Ambil Statistik Mood & Mood Dominan
       const resStats = await fetch(
-        `http://localhost:5000/api/mood-stats/${userId}`
+        `https://moodratio-backend-production.up.railway.app/api/mood-stats/${userId}`
       );
       let currentMood = 3;
       if (resStats.ok) {
@@ -45,9 +47,11 @@ export default function Dashboard() {
 
       // 3. Ambil Motivasi & Tugas
       const [resStatus, resTasks] = await Promise.all([
-        fetch(`http://localhost:5000/api/user-status/${userId}`),
         fetch(
-          `http://localhost:5000/api/tasks-priority/${userId}/${currentMood}`
+          `https://moodratio-backend-production.up.railway.app/api/user-status/${userId}`
+        ),
+        fetch(
+          `https://moodratio-backend-production.up.railway.app/api/tasks-priority/${userId}/${currentMood}`
         ),
       ]);
 
@@ -68,11 +72,14 @@ export default function Dashboard() {
   const handleUpdateMood = async () => {
     const userId = localStorage.getItem("userId");
     try {
-      const res = await fetch("http://localhost:5000/api/mood", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, skorMood: mood, catatan }),
-      });
+      const res = await fetch(
+        "https://moodratio-backend-production.up.railway.app/api/mood",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId, skorMood: mood, catatan }),
+        }
+      );
       if (res.ok) {
         fetchData();
         toast.success("Mood berhasil disimpan! ✨");
@@ -86,7 +93,7 @@ export default function Dashboard() {
     const userId = localStorage.getItem("userId");
     try {
       const res = await fetch(
-        `http://localhost:5000/api/tasks/${taskId}/complete`,
+        `https://moodratio-backend-production.up.railway.app/api/tasks/${taskId}/complete`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -118,7 +125,7 @@ export default function Dashboard() {
                 toast.dismiss(t.id);
                 try {
                   const res = await fetch(
-                    `http://localhost:5000/api/tasks/${taskId}`,
+                    `https://moodratio-backend-production.up.railway.app/api/tasks/${taskId}`,
                     {
                       method: "DELETE",
                     }

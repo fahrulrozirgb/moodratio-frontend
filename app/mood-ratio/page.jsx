@@ -13,7 +13,9 @@ export default function MoodRatio() {
     if (!userId) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/mood-stats/${userId}`);
+      const res = await fetch(
+        `https://moodratio-backend-production.up.railway.app/api/mood-stats/${userId}`
+      );
       if (!res.ok) {
         console.error("Respon server tidak ok");
         return;
