@@ -1,0 +1,9 @@
+/* app/globals.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities; */
+@import "tailwindcss";
+/* Opsional: Style body dasar */
+body {
+  background-color: #f7f9fb; /* Warna abu-abu muda di desain Anda */
+}
