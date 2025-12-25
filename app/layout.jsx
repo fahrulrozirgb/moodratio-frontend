@@ -27,5 +27,24 @@ export default function RootLayout({ children }) {
         </GoogleOAuthProvider>
       </body>
     </html>
+  ); // Ganti bagian return di RootLayout kamu menjadi ini:
+  return (
+    <html lang="id">
+      <body className="bg-[#F8F9FD] text-black">
+        <GoogleOAuthProvider clientId="633033039034-louql75ipqo2dcquml83e85rds82gt26.apps.googleusercontent.com">
+          <Toaster position="top-center" reverseOrder={false} />
+
+          <div className="flex min-h-screen">
+            {/* Sidebar hanya muncul jika bukan halaman auth */}
+            {!isAuthPage && <Sidebar />}
+
+            {/* Area Konten Utama */}
+            <main className={`flex-1 w-full ${!isAuthPage ? "md:pl-64" : ""}`}>
+              {children}
+            </main>
+          </div>
+        </GoogleOAuthProvider>
+      </body>
+    </html>
   );
 }

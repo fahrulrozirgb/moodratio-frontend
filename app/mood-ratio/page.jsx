@@ -37,7 +37,7 @@ export default function MoodRatio() {
 
   return (
     // Penyesuaian: md:ml-64 agar tidak tertutup sidebar di desktop, p-4 di HP agar tidak mepet
-    <div className="p-4 md:p-10 md:ml-64 min-h-screen bg-[#F8F9FD] text-black transition-all">
+    <div className="p-4 md:p-10  min-h-screen bg-[#F8F9FD] text-black transition-all">
       {/* Header: Tambah mt-12 di HP agar tidak tertutup tombol menu sidebar */}
       <h1 className="text-2xl md:text-3xl font-bold text-[#2D31FA] mb-8 mt-12 md:mt-0">
         Analisis Mood Ratio

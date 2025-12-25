@@ -48,7 +48,7 @@ export default function AddProject() {
 
   return (
     // Penyesuaian: md:ml-64 agar tidak tertutup sidebar, min-h-screen agar bisa di-scroll di HP
-    <div className="min-h-screen bg-[#F8F9FD] p-4 md:p-8 lg:p-10 md:ml-64 flex flex-col text-black font-sans transition-all">
+    <div className="min-h-screen bg-[#F8F9FD] p-4 md:p-8 lg:p-10  flex flex-col text-black font-sans transition-all">
       {/* Header Section - Tambah mt-12 di HP agar tidak tertutup tombol hamburger */}
       <header className="mb-6 mt-12 md:mt-0 flex flex-col md:flex-row md:items-center justify-between gap-2 shrink-0">
         <div>

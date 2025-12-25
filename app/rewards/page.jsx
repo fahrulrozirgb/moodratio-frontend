@@ -83,7 +83,7 @@ export default function RewardPage() {
 
   return (
     // Penyesuaian: md:ml-64 agar tidak tertutup sidebar di desktop
-    <div className="min-h-screen bg-[#F8F9FD] p-4 md:p-10 md:ml-64 text-black transition-all">
+    <div className="min-h-screen bg-[#F8F9FD] p-4 md:p-10  text-black transition-all">
       {/* Header: Tambah mt-12 di HP agar tidak tertutup tombol menu */}
       <header className="mb-10 mt-12 md:mt-0 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>

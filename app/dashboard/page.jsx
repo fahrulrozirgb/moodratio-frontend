@@ -163,7 +163,7 @@ export default function Dashboard() {
 
   return (
     // Penyesuaian: Menambahkan md:ml-64 agar konten tidak tertutup sidebar di desktop
-    <div className="min-h-screen bg-[#F8F9FD] p-4 md:p-8 md:ml-64 w-full text-black font-sans transition-all">
+    <div className="min-h-screen bg-[#F8F9FD] p-4 md:p-8 w-full text-black font-sans transition-all">
       {/* Header: Dibuat gap yang lebih kecil di HP dan padding atas untuk tombol menu */}
       <header className="mb-10 mt-12 md:mt-0 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
