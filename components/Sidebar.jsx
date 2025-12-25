@@ -7,6 +7,8 @@ export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const [userData, setUserData] = useState({ name: "Loading...", xp: 0 });
+  // TAMBAHAN: State untuk buka/tutup menu di HP
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const ambilDataUser = async () => {
@@ -27,6 +29,8 @@ export default function Sidebar() {
       }
     };
     ambilDataUser();
+    // Tutup sidebar otomatis saat pindah halaman di HP
+    setIsOpen(false);
   }, [pathname]);
 
   const handleLogout = () => {
@@ -34,7 +38,6 @@ export default function Sidebar() {
     router.push("/login");
   };
 
-  // LOGIKA DISESUAIKAN DENGAN REWARD PAGE
   const getBadge = (xp) => {
     if (xp >= 1000)
       return { label: "👑 Master", color: "bg-yellow-100 text-yellow-700" };
@@ -55,58 +58,80 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="w-64 h-screen bg-white border-r border-gray-100 flex flex-col p-6 fixed left-0 top-0 z-50 text-black">
-      <div className="mb-10 px-2 text-black">
-        <h1 className="text-xl font-bold text-[#2D31FA] tracking-tight text-black">
-          MoodRatio
-        </h1>
-        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-          Planner System
-        </p>
-      </div>
+    <>
+      {/* 1. TOMBOL HAMBURGER (Hanya muncul di HP) */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed top-4 left-4 z-[60] md:hidden bg-[#2D31FA] text-white p-2 rounded-xl shadow-lg"
+      >
+        {isOpen ? "✕" : "☰"}
+      </button>
 
-      <nav className="flex-1 space-y-2">
-        {menu.map((item) => (
-          <Link
-            key={item.path}
-            href={item.path}
-            className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 ${
-              pathname === item.path
-                ? "bg-[#2D31FA] text-white shadow-lg shadow-blue-200"
-                : "text-gray-500 hover:bg-gray-50"
-            }`}
-          >
-            <span className="text-xl">{item.icon}</span>
-            <span className="font-semibold text-sm">{item.nama}</span>
-          </Link>
-        ))}
-      </nav>
+      {/* 2. OVERLAY (Layar hitam transparan saat menu HP terbuka) */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[40] md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
-      <div className="mt-auto border-t pt-6">
-        <div className="flex items-center gap-3 mb-6 bg-gray-50 p-3 rounded-2xl">
-          <div className="w-10 h-10 bg-[#2D31FA] rounded-full flex items-center justify-center text-white font-bold uppercase shadow-inner">
-            {userData.name.charAt(0)}
-          </div>
-          <div className="flex-1 overflow-hidden">
-            <p className="text-sm font-bold text-gray-800 truncate text-black">
-              {userData.name}
-            </p>
-            <span
-              className={`text-[9px] px-2 py-0.5 rounded-full font-black uppercase inline-block ${badge.color}`}
-            >
-              {badge.label}
-            </span>
-          </div>
+      {/* 3. SIDEBAR (Logika CSS diubah agar slide di HP) */}
+      <div
+        className={`w-64 h-screen bg-white border-r border-gray-100 flex flex-col p-6 fixed left-0 top-0 z-50 text-black transform transition-transform duration-300 ease-in-out 
+        ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+      >
+        <div className="mb-10 px-2 text-black">
+          <h1 className="text-xl font-bold text-[#2D31FA] tracking-tight text-black">
+            MoodRatio
+          </h1>
+          <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+            Planner System
+          </p>
         </div>
 
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-500 hover:bg-red-50 transition-all font-bold text-sm"
-        >
-          <span className="text-lg">🚪</span>
-          Keluar
-        </button>
+        <nav className="flex-1 space-y-2">
+          {menu.map((item) => (
+            <Link
+              key={item.path}
+              href={item.path}
+              className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 ${
+                pathname === item.path
+                  ? "bg-[#2D31FA] text-white shadow-lg shadow-blue-200"
+                  : "text-gray-500 hover:bg-gray-50"
+              }`}
+            >
+              <span className="text-xl">{item.icon}</span>
+              <span className="font-semibold text-sm">{item.nama}</span>
+            </Link>
+          ))}
+        </nav>
+
+        <div className="mt-auto border-t pt-6">
+          <div className="flex items-center gap-3 mb-6 bg-gray-50 p-3 rounded-2xl">
+            <div className="w-10 h-10 bg-[#2D31FA] rounded-full flex items-center justify-center text-white font-bold uppercase shadow-inner">
+              {userData.name.charAt(0)}
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <p className="text-sm font-bold text-gray-800 truncate text-black">
+                {userData.name}
+              </p>
+              <span
+                className={`text-[9px] px-2 py-0.5 rounded-full font-black uppercase inline-block ${badge.color}`}
+              >
+                {badge.label}
+              </span>
+            </div>
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-500 hover:bg-red-50 transition-all font-bold text-sm"
+          >
+            <span className="text-lg">🚪</span>
+            Keluar
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast"; // Pastikan library ini sudah terinstall
+import { toast } from "react-hot-toast";
 
 export default function AddProject() {
   const [title, setTitle] = useState("");
@@ -29,7 +29,6 @@ export default function AddProject() {
       );
 
       if (res.ok) {
-        // GANTI ALERT JADI TOAST
         toast.success("Tugas berhasil ditambahkan! 🚀", {
           style: {
             borderRadius: "15px",
@@ -48,11 +47,12 @@ export default function AddProject() {
   };
 
   return (
-    <div className="h-screen bg-[#F8F9FD] p-6 lg:p-10 flex flex-col overflow-hidden text-black font-sans">
-      {/* Header Section - Ringkas agar hemat ruang */}
-      <header className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-2 shrink-0">
+    // Penyesuaian: md:ml-64 agar tidak tertutup sidebar, min-h-screen agar bisa di-scroll di HP
+    <div className="min-h-screen bg-[#F8F9FD] p-4 md:p-8 lg:p-10 md:ml-64 flex flex-col text-black font-sans transition-all">
+      {/* Header Section - Tambah mt-12 di HP agar tidak tertutup tombol hamburger */}
+      <header className="mb-6 mt-12 md:mt-0 flex flex-col md:flex-row md:items-center justify-between gap-2 shrink-0">
         <div>
-          <h1 className="text-2xl font-extrabold text-[#2D31FA]">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-[#2D31FA]">
             Tambah Proyek Baru
           </h1>
           <p className="text-gray-500 text-xs font-medium">
@@ -65,11 +65,11 @@ export default function AddProject() {
       </header>
 
       {/* Main Content Area */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 min-h-0">
-        <div className="lg:col-span-8 h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+        <div className="lg:col-span-8">
           <form
             onSubmit={handleSubmit}
-            className="bg-white p-6 md:p-8 rounded-[35px] shadow-sm border border-gray-100 flex flex-col h-full max-h-[620px] justify-between transition-all"
+            className="bg-white p-6 md:p-8 rounded-[30px] md:rounded-[35px] shadow-sm border border-gray-100 flex flex-col h-full justify-between transition-all"
           >
             <div className="space-y-5">
               {/* Input Judul */}
@@ -86,13 +86,13 @@ export default function AddProject() {
                 />
               </div>
 
-              {/* Input Deskripsi - Tinggi diatur agar pas satu layar */}
+              {/* Input Deskripsi */}
               <div>
                 <label className="block mb-2 text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">
                   Detail Deskripsi
                 </label>
                 <textarea
-                  className="w-full p-4 bg-gray-50 rounded-[20px] border-none focus:ring-2 focus:ring-[#2D31FA] outline-none h-36 text-sm text-gray-800 transition-all resize-none placeholder:text-gray-300 shadow-inner"
+                  className="w-full p-4 bg-gray-50 rounded-[20px] border-none focus:ring-2 focus:ring-[#2D31FA] outline-none h-32 md:h-36 text-sm text-gray-800 transition-all resize-none placeholder:text-gray-300 shadow-inner"
                   placeholder="Tuliskan detail atau langkah-langkah tugas ini secara spesifik..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -101,7 +101,7 @@ export default function AddProject() {
               </div>
 
               {/* Selector Kesulitan */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center bg-gray-50 p-6 rounded-[25px] shadow-inner">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center bg-gray-50 p-5 md:p-6 rounded-[25px] shadow-inner">
                 <div>
                   <label className="block mb-1 text-[10px] font-black text-gray-400 uppercase tracking-widest">
                     Tingkat Kesulitan:{" "}
@@ -132,15 +132,15 @@ export default function AddProject() {
             </div>
 
             {/* Submit Button */}
-            <button className="w-full py-4 mt-4 bg-[#2D31FA] text-white rounded-[22px] font-black text-sm uppercase tracking-widest shadow-lg shadow-blue-100 hover:bg-blue-700 hover:shadow-blue-200 active:scale-[0.97] transition-all">
+            <button className="w-full py-4 mt-6 bg-[#2D31FA] text-white rounded-[22px] font-black text-sm uppercase tracking-widest shadow-lg shadow-blue-100 hover:bg-blue-700 hover:shadow-blue-200 active:scale-[0.97] transition-all">
               Simpan Proyek & Mulai Kerja
             </button>
           </form>
         </div>
 
-        {/* Info Side Panel - Konsisten secara vertikal */}
-        <div className="lg:col-span-4 flex flex-col gap-5 h-full max-h-[620px]">
-          <div className="bg-indigo-50 p-6 rounded-[35px] border border-indigo-100 flex-1 flex flex-col justify-center shadow-sm">
+        {/* Info Side Panel - Di HP muncul di bawah form */}
+        <div className="lg:col-span-4 flex flex-col gap-4 md:gap-5 mb-8 lg:mb-0">
+          <div className="bg-indigo-50 p-6 rounded-[30px] md:rounded-[35px] border border-indigo-100 shadow-sm">
             <h4 className="font-bold text-indigo-900 text-sm mb-2 italic">
               Tips Produktif 💡
             </h4>
@@ -149,12 +149,12 @@ export default function AddProject() {
               mood kamu sedang di puncak (Level 4-5).
             </p>
           </div>
-          <div className="bg-white p-6 rounded-[35px] border border-gray-100 shadow-sm text-center flex flex-col justify-center">
+          <div className="bg-white p-6 rounded-[30px] md:rounded-[35px] border border-gray-100 shadow-sm text-center">
             <div className="text-4xl mb-3">🚀</div>
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
               Target Hari Ini
             </p>
-            <p className="text-xl font-black text-gray-800">
+            <p className="text-lg md:text-xl font-black text-gray-800">
               Selesaikan Tugas!
             </p>
           </div>

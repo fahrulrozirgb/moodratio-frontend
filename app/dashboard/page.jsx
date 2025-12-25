@@ -12,7 +12,7 @@ export default function Dashboard() {
   const [stats, setStats] = useState({
     rataRata: 0,
     moodSeringMuncul: "Memuat...",
-  }); // Tambahan untuk Mood Dominan
+  });
   const router = useRouter();
 
   const fetchData = async () => {
@@ -20,13 +20,11 @@ export default function Dashboard() {
     if (!userId) return router.push("/login");
 
     try {
-      // 1. Ambil data User
       const resUser = await fetch(
         `https://moodratio-backend-production.up.railway.app/api/user/${userId}`
       );
       if (resUser.ok) setUser(await resUser.json());
 
-      // 2. Ambil Statistik Mood & Mood Dominan
       const resStats = await fetch(
         `https://moodratio-backend-production.up.railway.app/api/mood-stats/${userId}`
       );
@@ -45,7 +43,6 @@ export default function Dashboard() {
         }
       }
 
-      // 3. Ambil Motivasi & Tugas
       const [resStatus, resTasks] = await Promise.all([
         fetch(
           `https://moodratio-backend-production.up.railway.app/api/user-status/${userId}`
@@ -112,7 +109,6 @@ export default function Dashboard() {
   };
 
   const hapusTugas = async (taskId) => {
-    // Mengganti confirm() browser dengan Custom Toast Confirmation
     toast(
       (t) => (
         <div className="flex flex-col gap-3">
@@ -166,13 +162,15 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9FD] p-8 w-full text-black font-sans">
-      <header className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    // Penyesuaian: Menambahkan md:ml-64 agar konten tidak tertutup sidebar di desktop
+    <div className="min-h-screen bg-[#F8F9FD] p-4 md:p-8 md:ml-64 w-full text-black font-sans transition-all">
+      {/* Header: Dibuat gap yang lebih kecil di HP dan padding atas untuk tombol menu */}
+      <header className="mb-10 mt-12 md:mt-0 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-4xl font-black text-[#0062ff]">
+          <h1 className="text-3xl md:text-4xl font-black text-[#0062ff]">
             Halo, {user.name}! 👋
           </h1>
-          <p className="text-gray-500 font-medium">
+          <p className="text-gray-500 font-medium text-sm md:text-base">
             Lacak mood dan selesaikan targetmu.
           </p>
         </div>
@@ -190,37 +188,38 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* Quote Card */}
-      <div className="mb-8 p-7 bg-gradient-to-br from-[#2D31FA] to-[#7C3AED] rounded-[40px] text-white shadow-xl flex items-center gap-6 transform hover:scale-[1.01] transition-all">
-        <div className="text-5xl bg-white/20 p-4 rounded-3xl backdrop-blur-sm text-white">
+      {/* Quote Card: flex-col di HP, flex-row di desktop */}
+      <div className="mb-8 p-6 md:p-7 bg-gradient-to-br from-[#2D31FA] to-[#7C3AED] rounded-[30px] md:rounded-[40px] text-white shadow-xl flex flex-col md:flex-row items-center gap-4 md:gap-6 transform hover:scale-[1.01] transition-all text-center md:text-left">
+        <div className="text-4xl md:text-5xl bg-white/20 p-4 rounded-3xl backdrop-blur-sm text-white">
           💡
         </div>
         <div>
-          <h3 className="text-xl font-bold mb-1 text-white">
+          <h3 className="text-lg md:text-xl font-bold mb-1 text-white leading-tight">
             {motivasi.pesan}
           </h3>
-          <p className="opacity-90 text-sm font-medium italic text-white">
+          <p className="opacity-90 text-xs md:text-sm font-medium italic text-white">
             {motivasi.saran}
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        {/* Mood Tracker */}
-        <div className="bg-white p-8 rounded-[45px] shadow-sm border border-gray-100 h-fit">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
+        {/* Mood Tracker: Card width full secara default */}
+        <div className="bg-white p-6 md:p-8 rounded-[35px] md:rounded-[45px] shadow-sm border border-gray-100 h-fit w-full">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-black text-gray-800">Mood Tracker</h2>
-            <span className="text-[10px] bg-blue-50 text-[#2D31FA] px-3 py-1 rounded-full font-black uppercase">
+            <span className="text-[9px] md:text-[10px] bg-blue-50 text-[#2D31FA] px-3 py-1 rounded-full font-black uppercase">
               {stats.moodSeringMuncul}
             </span>
           </div>
 
-          <div className="flex justify-between mb-8">
+          {/* Emoji: Gap disesuaikan agar tidak overflow di HP kecil */}
+          <div className="flex justify-between mb-8 px-1">
             {[1, 2, 3, 4, 5].map((s) => (
               <button
                 key={s}
                 onClick={() => setMood(s)}
-                className={`text-4xl transition-all ${
+                className={`text-3xl md:text-4xl transition-all ${
                   mood === s
                     ? "scale-125 grayscale-0 drop-shadow-md"
                     : "grayscale opacity-30 hover:opacity-100"
@@ -252,27 +251,27 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* Task List */}
+        {/* Task List: grid-cols-1 di HP, grid-cols-2 di desktop */}
         <div className="lg:col-span-2 space-y-6">
-          <h2 className="text-xl font-black text-gray-800 flex items-center gap-2">
+          <h2 className="text-xl font-black text-gray-800 flex flex-wrap items-center gap-2">
             Tugas Prioritas{" "}
             <span className="text-[10px] bg-gray-100 text-gray-400 px-3 py-1 rounded-full uppercase">
               Berdasarkan Mood
             </span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
             {tugas.length > 0 ? (
               tugas.map((t) => (
                 <div
                   key={t.id}
-                  className="bg-white p-7 rounded-[40px] border-l-[10px] border-[#2D31FA] shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow"
+                  className="bg-white p-6 md:p-7 rounded-[35px] md:rounded-[40px] border-l-[10px] border-[#2D31FA] shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow"
                 >
                   <div>
                     <div className="flex justify-between items-start mb-3">
-                      <h3 className="font-black text-gray-800 leading-tight">
+                      <h3 className="font-black text-gray-800 leading-tight pr-2">
                         {t.title}
                       </h3>
-                      <span className="text-[9px] bg-blue-50 text-[#2D31FA] px-3 py-1 rounded-full font-black">
+                      <span className="text-[9px] bg-blue-50 text-[#2D31FA] px-3 py-1 rounded-full font-black whitespace-nowrap">
                         LVL {t.priority}
                       </span>
                     </div>
@@ -280,7 +279,7 @@ export default function Dashboard() {
                       {t.description}
                     </p>
                   </div>
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 mt-auto">
                     <button
                       onClick={() => selesaikanTugas(t.id)}
                       className="flex-1 text-[#2D31FA] font-black text-[10px] uppercase tracking-widest bg-blue-50 py-4 rounded-[20px] hover:bg-[#2D31FA] hover:text-white transition-all shadow-sm"
@@ -297,8 +296,8 @@ export default function Dashboard() {
                 </div>
               ))
             ) : (
-              <div className="col-span-2 bg-gray-50/50 border-2 border-dashed border-gray-200 rounded-[40px] py-16 text-center">
-                <p className="text-gray-400 font-medium italic">
+              <div className="col-span-1 md:col-span-2 bg-gray-50/50 border-2 border-dashed border-gray-200 rounded-[35px] md:rounded-[40px] py-16 text-center px-4">
+                <p className="text-gray-400 font-medium italic text-sm">
                   Tidak ada tugas yang perlu dikerjakan. Santai dulu! ☕
                 </p>
               </div>

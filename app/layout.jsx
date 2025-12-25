@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
 
           {!isAuthPage && <Sidebar />}
 
-          <main className={`flex-1 ${!isAuthPage ? "ml-64" : ""}`}>
+          <main className={`flex-1 ${!isAuthPage ? "md:ml-64" : ""}`}>
             {children}
           </main>
         </GoogleOAuthProvider>
