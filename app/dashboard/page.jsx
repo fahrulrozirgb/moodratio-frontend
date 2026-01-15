@@ -122,9 +122,7 @@ export default function Dashboard() {
                 try {
                   const res = await fetch(
                     `https://moodratio-backend-production.up.railway.app/api/tasks/${taskId}`,
-                    {
-                      method: "DELETE",
-                    }
+                    { method: "DELETE" }
                   );
                   if (res.ok) {
                     toast.success("Tugas telah dihapus", { icon: "🗑️" });
@@ -154,17 +152,14 @@ export default function Dashboard() {
           borderRadius: "20px",
           background: "#fff",
           color: "#333",
-          boxShadow:
-            "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)",
         },
       }
     );
   };
 
   return (
-    // Penyesuaian: Menambahkan md:ml-64 agar konten tidak tertutup sidebar di desktop
     <div className="min-h-screen bg-[#F8F9FD] p-4 md:p-8 w-full text-black font-sans transition-all">
-      {/* Header: Dibuat gap yang lebih kecil di HP dan padding atas untuk tombol menu */}
       <header className="mb-10 mt-12 md:mt-0 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl md:text-4xl font-black text-[#0062ff]">
@@ -188,7 +183,6 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* Quote Card: flex-col di HP, flex-row di desktop */}
       <div className="mb-8 p-6 md:p-7 bg-gradient-to-br from-[#2D31FA] to-[#7C3AED] rounded-[30px] md:rounded-[40px] text-white shadow-xl flex flex-col md:flex-row items-center gap-4 md:gap-6 transform hover:scale-[1.01] transition-all text-center md:text-left">
         <div className="text-4xl md:text-5xl bg-white/20 p-4 rounded-3xl backdrop-blur-sm text-white">
           💡
@@ -204,7 +198,6 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
-        {/* Mood Tracker: Card width full secara default */}
         <div className="bg-white p-6 md:p-8 rounded-[35px] md:rounded-[45px] shadow-sm border border-gray-100 h-fit w-full">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-black text-gray-800">Mood Tracker</h2>
@@ -213,7 +206,6 @@ export default function Dashboard() {
             </span>
           </div>
 
-          {/* Emoji: Gap disesuaikan agar tidak overflow di HP kecil */}
           <div className="flex justify-between mb-8 px-1">
             {[1, 2, 3, 4, 5].map((s) => (
               <button
@@ -251,7 +243,6 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* Task List: grid-cols-1 di HP, grid-cols-2 di desktop */}
         <div className="lg:col-span-2 space-y-6">
           <h2 className="text-xl font-black text-gray-800 flex flex-wrap items-center gap-2">
             Tugas Prioritas{" "}
@@ -264,17 +255,36 @@ export default function Dashboard() {
               tugas.map((t) => (
                 <div
                   key={t.id}
-                  className="bg-white p-6 md:p-7 rounded-[35px] md:rounded-[40px] border-l-[10px] border-[#2D31FA] shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow"
+                  className="bg-white p-6 md:p-7 rounded-[35px] md:rounded-[40px] border-l-[10px] border-[#2D31FA] shadow-sm flex flex-col justify-between hover:shadow-md transition-all"
                 >
                   <div>
                     <div className="flex justify-between items-start mb-3">
                       <h3 className="font-black text-gray-800 leading-tight pr-2">
-                        {t.title}
+                        {t.task_name || t.title}
                       </h3>
-                      <span className="text-[9px] bg-blue-50 text-[#2D31FA] px-3 py-1 rounded-full font-black whitespace-nowrap">
-                        LVL {t.priority}
-                      </span>
+                      <div className="flex flex-col items-end gap-1">
+                        <span className="text-[9px] bg-blue-50 text-[#2D31FA] px-3 py-1 rounded-full font-black">
+                          LVL {t.priority}
+                        </span>
+                      </div>
                     </div>
+
+                    {/* FITUR DEADLINE: Tampil di sini sesuai request mu */}
+                    {t.deadline && (
+                      <div className="mb-4">
+                        <div className="flex items-center gap-1 text-[10px] font-black text-red-500 bg-red-50 px-3 py-1.5 rounded-xl w-fit">
+                          <span>
+                            📅{" "}
+                            {new Date(t.deadline).toLocaleDateString("id-ID")}
+                          </span>
+                        </div>
+                        <p className="text-[9px] mt-1 text-red-400 font-bold italic animate-pulse">
+                          ⚠️ Kerjakan tugas ini karena deadline nya sudah dekat
+                          🔥
+                        </p>
+                      </div>
+                    )}
+
                     <p className="text-gray-400 text-xs font-medium mb-6 line-clamp-3">
                       {t.description}
                     </p>

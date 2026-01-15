@@ -7,6 +7,7 @@ export default function AddProject() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState(3);
+  const [deadline, setDeadline] = useState(""); // Fitur Baru: State Deadline
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -24,6 +25,7 @@ export default function AddProject() {
             title,
             description,
             priority,
+            deadline, // Fitur Baru: Kirim Deadline ke Backend
           }),
         }
       );
@@ -47,9 +49,7 @@ export default function AddProject() {
   };
 
   return (
-    // Penyesuaian: md:ml-64 agar tidak tertutup sidebar, min-h-screen agar bisa di-scroll di HP
     <div className="min-h-screen bg-[#F8F9FD] p-4 md:p-8 lg:p-10  flex flex-col text-black font-sans transition-all">
-      {/* Header Section - Tambah mt-12 di HP agar tidak tertutup tombol hamburger */}
       <header className="mb-6 mt-12 md:mt-0 flex flex-col md:flex-row md:items-center justify-between gap-2 shrink-0">
         <div>
           <h1 className="text-2xl md:text-3xl font-extrabold text-[#2D31FA]">
@@ -64,7 +64,6 @@ export default function AddProject() {
         </div>
       </header>
 
-      {/* Main Content Area */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
         <div className="lg:col-span-8">
           <form
@@ -72,7 +71,6 @@ export default function AddProject() {
             className="bg-white p-6 md:p-8 rounded-[30px] md:rounded-[35px] shadow-sm border border-gray-100 flex flex-col h-full justify-between transition-all"
           >
             <div className="space-y-5">
-              {/* Input Judul */}
               <div>
                 <label className="block mb-2 text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">
                   Nama Proyek / Tugas
@@ -86,7 +84,6 @@ export default function AddProject() {
                 />
               </div>
 
-              {/* Input Deskripsi */}
               <div>
                 <label className="block mb-2 text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">
                   Detail Deskripsi
@@ -100,7 +97,6 @@ export default function AddProject() {
                 />
               </div>
 
-              {/* Selector Kesulitan */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center bg-gray-50 p-5 md:p-6 rounded-[25px] shadow-inner">
                 <div>
                   <label className="block mb-1 text-[10px] font-black text-gray-400 uppercase tracking-widest">
@@ -129,16 +125,28 @@ export default function AddProject() {
                   </div>
                 </div>
               </div>
+
+              {/* Fitur Baru: Input Deadline */}
+              <div>
+                <label className="block mb-2 text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">
+                  Tenggat Waktu (Deadline)
+                </label>
+                <input
+                  type="date"
+                  className="w-full p-4 bg-gray-50 rounded-[20px] border-none focus:ring-2 focus:ring-[#2D31FA] outline-none text-base font-medium text-gray-400 transition-all shadow-inner"
+                  value={deadline}
+                  onChange={(e) => setDeadline(e.target.value)}
+                  required
+                />
+              </div>
             </div>
 
-            {/* Submit Button */}
             <button className="w-full py-4 mt-6 bg-[#2D31FA] text-white rounded-[22px] font-black text-sm uppercase tracking-widest shadow-lg shadow-blue-100 hover:bg-blue-700 hover:shadow-blue-200 active:scale-[0.97] transition-all">
               Simpan Proyek & Mulai Kerja
             </button>
           </form>
         </div>
 
-        {/* Info Side Panel - Di HP muncul di bawah form */}
         <div className="lg:col-span-4 flex flex-col gap-4 md:gap-5 mb-8 lg:mb-0">
           <div className="bg-indigo-50 p-6 rounded-[30px] md:rounded-[35px] border border-indigo-100 shadow-sm">
             <h4 className="font-bold text-indigo-900 text-sm mb-2 italic">
