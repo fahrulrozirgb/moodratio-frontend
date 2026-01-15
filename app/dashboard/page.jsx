@@ -270,20 +270,71 @@ export default function Dashboard() {
                     </div>
 
                     {/* FITUR DEADLINE: Tampil di sini sesuai request mu */}
-                    {t.deadline && (
-                      <div className="mb-4">
-                        <div className="flex items-center gap-1 text-[10px] font-black text-red-500 bg-red-50 px-3 py-1.5 rounded-xl w-fit">
-                          <span>
-                            📅{" "}
-                            {new Date(t.deadline).toLocaleDateString("id-ID")}
-                          </span>
-                        </div>
-                        <p className="text-[9px] mt-1 text-red-400 font-bold italic animate-pulse">
-                          ⚠️ Kerjakan tugas ini karena deadline nya sudah dekat
-                          🔥
-                        </p>
-                      </div>
-                    )}
+                    {/* FITUR DEADLINE DENGAN LOGIKA SMART WARNING */}
+                    {t.deadline &&
+                      (() => {
+                        const tglDeadline = new Date(t.deadline);
+                        const tglSekarang = new Date();
+
+                        // Set jam ke 0 agar perbandingan hari lebih akurat
+                        tglDeadline.setHours(0, 0, 0, 0);
+                        tglSekarang.setHours(0, 0, 0, 0);
+
+                        // Hitung selisih hari
+                        const selisihWaktu = tglDeadline - tglSekarang;
+                        const sisaHari = Math.ceil(
+                          selisihWaktu / (1000 * 60 * 60 * 24)
+                        );
+
+                        if (sisaHari >= 0 && sisaHari <= 7) {
+                          // Tampilan jika deadline DEKAT (0-7 hari)
+                          return (
+                            <div className="mb-4">
+                              <div className="flex items-center gap-1 text-[10px] font-black text-red-500 bg-red-50 px-3 py-1.5 rounded-xl w-fit">
+                                <span>
+                                  📅{" "}
+                                  {sisaHari === 0
+                                    ? "HARI INI!"
+                                    : tglDeadline.toLocaleDateString("id-ID")}
+                                </span>
+                              </div>
+                              <p className="text-[9px] mt-1 text-red-400 font-bold italic animate-pulse">
+                                ⚠️{" "}
+                                {sisaHari === 0
+                                  ? "🚨 GAWAT! Sikat sekarang sebelum terlambat!"
+                                  : "Kerjakan tugas ini karena deadline nya sudah dekat 🔥"}
+                              </p>
+                            </div>
+                          );
+                        } else if (sisaHari > 7) {
+                          // Tampilan jika masih LAMA (di atas 7 hari)
+                          return (
+                            <div className="mb-4">
+                              <div className="flex items-center gap-1 text-[10px] font-black text-blue-500 bg-blue-50 px-3 py-1.5 rounded-xl w-fit">
+                                <span>
+                                  📅 {tglDeadline.toLocaleDateString("id-ID")}
+                                </span>
+                              </div>
+                              <p className="text-[9px] mt-1 text-gray-400 font-bold italic">
+                                😊 Tugas ini masih lumayan lama lagi kok, santai
+                                dulu...
+                              </p>
+                            </div>
+                          );
+                        } else {
+                          // Tampilan jika SUDAH LEWAT
+                          return (
+                            <div className="mb-4">
+                              <div className="flex items-center gap-1 text-[10px] font-black text-white bg-gray-800 px-3 py-1.5 rounded-xl w-fit">
+                                <span>📅 TERLEWAT</span>
+                              </div>
+                              <p className="text-[9px] mt-1 text-gray-500 font-bold italic">
+                                💀 Yah, deadline tugas ini sudah lewat Fahrul...
+                              </p>
+                            </div>
+                          );
+                        }
+                      })()}
 
                     <p className="text-gray-400 text-xs font-medium mb-6 line-clamp-3">
                       {t.description}
