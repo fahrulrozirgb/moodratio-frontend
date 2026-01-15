@@ -260,7 +260,7 @@ export default function Dashboard() {
                   <div>
                     <div className="flex justify-between items-start mb-3">
                       <h3 className="font-black text-gray-800 leading-tight pr-2">
-                        {t.task_name || t.title}
+                        {t.title} {/* Pakai t.title saja */}
                       </h3>
                       <div className="flex flex-col items-end gap-1">
                         <span className="text-[9px] bg-blue-50 text-[#2D31FA] px-3 py-1 rounded-full font-black">
