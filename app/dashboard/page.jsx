@@ -329,7 +329,7 @@ export default function Dashboard() {
                                 <span>📅 TERLEWAT</span>
                               </div>
                               <p className="text-[9px] mt-1 text-gray-500 font-bold italic">
-                                💀 Yah, deadline tugas ini sudah lewat Fahrul...
+                                💀 Yah, deadline tugas ini sudah lewat...
                               </p>
                             </div>
                           );
